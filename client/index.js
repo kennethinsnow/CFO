@@ -5,6 +5,7 @@ Template.urlForm.helpers({
         short: Session.get('shortUrl'),
         long: Session.get('longUrl')
       };
+      console.log(url);
       return url;
     }
   }
@@ -15,8 +16,13 @@ Template.urlForm.events({
     event.preventDefault();
     var longUrl = event.target.longUrl.value;
     event.target.longUrl.value = ""; 
-    Session.set('longUrl', longUrl);
-    var shortUrl = Meteor.call('getShortUrl', longUrl);
-    Session.set('shortUrl', shortUrl);
+    Meteor.call('getShortUrl', longUrl, function(error, result){
+      if (error){
+        console.log(error.reason);
+      } else {
+      	Session.set('shortUrl', result);
+        Session.set('longUrl', longUrl);
+      }
+    });
   }   
 });

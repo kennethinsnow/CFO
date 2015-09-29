@@ -1,5 +1,6 @@
 Meteor.methods({
-  'getShortUrl': function(longUrl){
+  'getShortUrl': function(longUrl, callback){
+    var domain = "http://localhost:3000/";
     var currentUserId = Meteor.userId();
     var shortS = getSURL();
     console.log(shortS);
@@ -9,6 +10,7 @@ Meteor.methods({
       long: longUrl,
       userId: currentUserId
     });
+    return domain + shortS;
   }
 });
 
@@ -21,7 +23,7 @@ var getSURL = function(){
     console.log(rNum);
     str = ShortURL.encode(rNum);
     console.log(str);
-  } while (UrlRec.find({short: str}));
+  } while (UrlRec.find({short: str}).count() > 0);
   return str;
 };
 

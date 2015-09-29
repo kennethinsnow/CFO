@@ -2,7 +2,7 @@
   <title>Ultimate URL Solution</title>
 </head>
 <body>
-  <h1>Leaderboard</h1>
+  <h1>Url shortener</h1>
     {{> loginButtons}}
     {{> urlForm}}
 </body>
@@ -14,12 +14,9 @@
   <input type="submit" value="Short It">
 </form>
 {{#if urlInfo}}
-  {{>urlList}}
-{{/if}}
-</template>
-<template name="urlList">
-  <div>
-    <p>{{urlInfo.short}}</p>
-    <p>{{urlInfo.long}}</p>
+  <div class="convertedPair">
+    <p class="shortUrl">Your Short Link: {{urlInfo.short}}</p>
+    <p class="longUrl">Original Link: {{urlInfo.long}}</p>
   </div>
+{{/if}}
 </template>
