@@ -1,0 +1,25 @@
+<head>
+  <title>Ultimate URL Solution</title>
+</head>
+<body>
+  <h1>Leaderboard</h1>
+    {{> loginButtons}}
+    {{> urlForm}}
+</body>
+
+<template name="urlForm">
+<form>
+  <p>Please input your link here:</p>
+  <input type="text" size="100" maxlength="256" name="longUrl">
+  <input type="submit" value="Short It">
+</form>
+{{#if urlInfo}}
+  {{>urlList}}
+{{/if}}
+</template>
+<template name="urlList">
+  <div>
+    <p>{{urlInfo.short}}</p>
+    <p>{{urlInfo.long}}</p>
+  </div>
+</template>
