@@ -16,7 +16,7 @@ Template.urlForm.events({
     var longUrl = event.target.longUrl.value;
     event.target.longUrl.value = ""; 
     Session.set('longUrl', longUrl);
-    var shortUrl = Meteor.call('getShortLink', longUrl);
+    var shortUrl = Meteor.call('getShortUrl', longUrl);
     Session.set('shortUrl', shortUrl);
   }   
 });

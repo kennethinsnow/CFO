@@ -1,13 +1,14 @@
 Meteor.methods({
   'getShortUrl': function(longUrl){
     var currentUserId = Meteor.userId();
-    var shortS = getSURL;
+    var shortS = getSURL();
+    console.log(shortS);
+    console.log(longUrl);
     UrlRec.insert({
       short: shortS,
       long: longUrl,
       userId: currentUserId
     });
-    return shortS;
   }
 });
 
@@ -17,7 +18,9 @@ var getSURL = function(){
   var str = '';
   do {
     rNum = getRandomIntInclusive(0, Math.pow(51, 6) - 1);
+    console.log(rNum);
     str = ShortURL.encode(rNum);
+    console.log(str);
   } while (UrlRec.find({short: str}));
   return str;
 };
