@@ -1,8 +1,8 @@
 Meteor.methods({
   'getShortUrl': function(longUrl, callback){
-    var domain = "http://localhost:3000/";
     var currentUserId = Meteor.userId();
     var shortS = getSURL();
+    // console.log(Meteor.absoluteUrl('/', {}));
     console.log(shortS);
     console.log(longUrl);
     UrlRec.insert({
@@ -10,7 +10,7 @@ Meteor.methods({
       long: longUrl,
       userId: currentUserId
     });
-    return domain + shortS;
+    return Meteor.absoluteUrl('', {}) + shortS;
   }
 });
 
@@ -20,9 +20,9 @@ var getSURL = function(){
   var str = '';
   do {
     rNum = getRandomIntInclusive(0, Math.pow(51, 6) - 1);
-    console.log(rNum);
+    // console.log(rNum);
     str = ShortURL.encode(rNum);
-    console.log(str);
+    // console.log(str);
   } while (UrlRec.find({short: str}).count() > 0);
   return str;
 };

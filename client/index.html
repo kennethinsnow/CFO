@@ -1,11 +1,17 @@
-<head>
-  <title>Ultimate URL Solution</title>
-</head>
-<body>
+<template name='home'>
   <h1>Url shortener</h1>
     {{> loginButtons}}
     {{> urlForm}}
-</body>
+</template>
+
+<template name='main'>
+	{{> navbar}}
+	<hr>
+	{{> yield}}
+	<p> </p>
+	<hr />
+	<p>Copyright &copy; UltimateUrlShornener, 2015.</p>
+</template>
 
 <template name="urlForm">
 <form>
@@ -15,7 +21,7 @@
 </form>
 {{#if urlInfo}}
   <div class="convertedPair">
-    <p class="shortUrl">Your Short Link: {{urlInfo.short}}</p>
+    <p class="shortUrl">Your Short Link: <a target='_blank' href = '{{urlInfo.short}}'>{{urlInfo.short}}</a></p>
     <p class="longUrl">Original Link: {{urlInfo.long}}</p>
   </div>
 {{/if}}
