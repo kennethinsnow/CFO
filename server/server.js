@@ -1,14 +1,28 @@
+Meteor.publish('theUrls', function(){
+	var curUserId = this.userId;
+	return UrlRec.find({userId:curUserId});
+});
+
 Meteor.methods({
-  'getShortUrl': function(longUrl, callback){
+  'getShortUrl': function(longUrl){
     var currentUserId = Meteor.userId();
     var shortS = getSURL();
     // console.log(Meteor.absoluteUrl('/', {}));
-    console.log(shortS);
-    console.log(longUrl);
+    // console.log(shortS);
+    //console.log(longUrl);
+    if (!currentUserId){
+    	currentUserId = 'guest_user_';
+    }
     UrlRec.insert({
       short: shortS,
       long: longUrl,
+      createdAt: new Date(),
       userId: currentUserId
+    }, function(err, res){
+    	if (err){
+    		// FlashMessages.sendError('insert to Urls failed: ' + err.messge);
+    		throw err;
+    	}
     });
     return Meteor.absoluteUrl('', {}) + shortS;
   }
