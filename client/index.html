@@ -22,37 +22,39 @@
   <input type="submit" value="Short It">
 </form>
 <table class="table table-hover">
-{{#if urlForCurUser}}
-        <thead>
-          <tr>
-            <th>Long Url</th>
-            <th>CreatedAt</th>
-            <th>Short Url</th>
-          </tr>
-        </thead>
-  {{#each urlForCurUser}}
-    <tbody>
+{{#if currentUser}}
+	<thead>
 	  <tr>
-	    <td>
-	      <a target='_blank' href="{{long}}">
-	        {{long}}
-	      </a>
-	    </td>
-	    <td>{{formatDate createdAt}}</td>
-	    <td>
-	      <a target='_blank' href="{{appendToBaseUrl short}}">
-	        {{appendToBaseUrl short}}
-	      </a>
-	    </td>
+	    <th>Long Url</th>
+	    <th>CreatedAt</th>
+	    <th>Short Url</th>
 	  </tr>
-	</tbody>
-  {{/each}}
+	</thead>
+    {{#if urlForCurUser}}
+	  {{#each urlForCurUser}}
+	    <tbody>
+		  <tr>
+		    <td>
+		      <a target='_blank' href="{{long}}">
+		        {{long}}
+		      </a>
+		    </td>
+		    <td>{{formatDate createdAt}}</td>
+		    <td>
+		      <a target='_blank' href="{{appendToBaseUrl short}}">
+		        {{appendToBaseUrl short}}
+		      </a>
+		    </td>
+		  </tr>
+		</tbody>
+	  {{/each}}
+	{{else}}
+		<tr colspan=3>You have no shortened Urls</tr>
+	{{/if}}
 {{else}}
 	{{#if urlInfo}}
 	    <tr colspan=3>Your Short Link: <a target='_blank' href = '{{urlInfo.short}}'>{{urlInfo.short}}</a></tr>
 	    <tr colspan=3>Original Link: {{urlInfo.long}}</tr>
-	{{else}}
-		<tr colspan=3>You have no shortened Urls</tr>
 	{{/if}}
 {{/if}}
 </table>

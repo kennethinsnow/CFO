@@ -11,7 +11,11 @@ Template.urlForm.helpers({
     }
   },
   'urlForCurUser': function(){
-  	return UrlRec.find({}, {sort:{createdAt:-1}, limit:20});
+  	if (UrlRec.find().count() != 0){
+      return UrlRec.find({}, {sort:{createdAt:-1}, limit:20});
+  	} else {
+  	  return 0;
+  	}
   }
 });
 
@@ -21,7 +25,7 @@ Template.urlForm.events({
     var longUrl = event.target.longUrl.value;
     event.target.longUrl.value = ""; 
     if (!validateURL(longUrl)){
-    	FlashMessages.sendError("Url is invalid, please check before submitting it again.");
+    	FlashMessages.sendError("Url is invalid, please check it before submitting again.");
     } else {
 	    Meteor.call('getShortUrl', longUrl, function(error, result){
 	      if (error){

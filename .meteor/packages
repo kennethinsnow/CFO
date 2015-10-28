@@ -20,7 +20,5 @@ accounts-password
 accounts-ui
 accounts-twitter
 iron:router
-sanjo:jasmine
-velocity:html-reporter
 mrt:flash-messages
 momentjs:moment

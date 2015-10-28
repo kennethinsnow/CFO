@@ -6,30 +6,47 @@ Meteor.publish('theUrls', function(){
 Meteor.methods({
   'getShortUrl': function(longUrl){
     var currentUserId = Meteor.userId();
-    var shortS = getSURL();
-    // console.log(Meteor.absoluteUrl('/', {}));
-    // console.log(shortS);
-    //console.log(longUrl);
     if (!currentUserId){
     	currentUserId = 'guest_user_';
     }
-    UrlRec.insert({
-      short: shortS,
-      long: longUrl,
-      createdAt: new Date(),
-      userId: currentUserId
-    }, function(err, res){
-    	if (err){
-    		// FlashMessages.sendError('insert to Urls failed: ' + err.messge);
-    		throw err;
-    	}
-    });
+    var doc = UrlRec.findOne({long:longUrl, userId: currentUserId});
+    var shortS;
+    if (doc){
+  	  shortS = doc.short;
+   	  UrlRec.update({
+	    short: shortS,
+	    userId: currentUserId
+	  }, {$set: {createdAt: new Date()}}, function(err, res){
+   	    if (err){
+	      // FlashMessages.sendError('insert to Urls failed: ' + err.messge);
+	      throw err;
+	    }
+	  });
+    } else {
+	  var shortS = getSURL();
+	  UrlRec.insert({
+	    short: shortS,      
+	    long: longUrl,
+	    createdAt: new Date(),
+	    userId: currentUserId
+	  }, function(err, res){
+   	    if (err){
+	      // FlashMessages.sendError('insert to Urls failed: ' + err.messge);
+	      throw err;
+	    }
+	  });
+    }
     return Meteor.absoluteUrl('', {}) + shortS;
+  },
+  'getUrlByCurUser': function(){
+	  var curUserId = this.userId;
+	  return UrlRec.find({userId:curUserId});
   }
 });
 
 // return a random interger number that is not in the database
 var getSURL = function(){
+  // check if long url already exists and created by the same user.
   var rNum = 0;
   var str = '';
   do {
