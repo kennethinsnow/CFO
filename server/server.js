@@ -1,6 +1,10 @@
-Meteor.publish('theUrls', function(){
+Meteor.publish('userUrls', function(){
 	var curUserId = this.userId;
 	return UrlRec.find({userId:curUserId});
+});
+
+Meteor.publish('popularUrls', function(){
+	return UrlRec.find({}, {sort:{createdAt: -1}, limit:5});
 });
 
 Meteor.methods({
@@ -36,7 +40,7 @@ Meteor.methods({
 	    }
 	  });
     }
-    return Meteor.absoluteUrl('', {}) + shortS;
+    return shortS;
   },
   'getUrlByCurUser': function(){
 	  var curUserId = this.userId;

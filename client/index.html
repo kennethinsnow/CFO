@@ -1,17 +1,27 @@
 <template name='main'>
-	{{> navbar}}
+	{{> nav}}
 	{{> flashMessages}}
-	<hr>
 	{{> yield}}
 	<p> </p>
 	<hr />
-	<p>Copyright &copy; UltimateUrlShornener, 2015.</p>
+	{{> footer}}
 </template>
 
 <template name='home'>
-  <h1>Url shortener</h1>
-    {{> loginButtons}}
-    {{> urlForm}}
+	<div class="container">
+	    {{> shortenbar}}
+	    <p></p>
+	    {{#if urlSess}}
+	    	{{! Comments: pass urlSess to inner template}}
+    		{{> currentLink urlSess}}
+	    {{/if}}
+	    {{#if currentUser}}
+	    	{{> linklist}}
+	    {{else}}
+	        {{> toplinks}}
+	        <p>Want to track all your Lis, please <a href="{{pathFor route='login'}}">login</a> or <a href="{{pathFor route='register'}}">register</a>!</p>
+	    {{/if}}
+    </div>
 </template>
 
 
