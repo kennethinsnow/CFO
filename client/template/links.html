@@ -19,8 +19,10 @@
     {{#each urlsForCurUser}}
     	{{> linkItem}}
     {{/each}}
-    {{#if urlsForCurUser}}
-    	{{> pagination}}
+    {{#if moreResults}}
+        <div id="showMoreResults" style="margin-left: 25px;">
+            <span class="loading">Loading...</span>
+        </div>
     {{/if}}
 </template>
 
@@ -34,6 +36,11 @@
     {{#each popularUrls}}
     	{{> linkItem}}
     {{/each}}
+    {{#if moreResults}}
+        <div id="showMoreResults" style="margin-left: 25px;">
+            <span class="loading">Loading...</span>
+        </div>
+    {{/if}}
 </template>
 
 <template name="linkItem">

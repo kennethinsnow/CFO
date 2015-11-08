@@ -1,10 +1,11 @@
-Meteor.publish('userUrls', function(){
-	var curUserId = this.userId;
-	return UrlRec.find({userId:curUserId});
+Meteor.publish('userUrls', function(lim){
+    var curUserId = this.userId;
+    // console.log(lim);
+    return UrlRec.find({userId:curUserId}, {sort:{createdAt: -1}, limit:lim});
 });
 
-Meteor.publish('popularUrls', function(){
-	return UrlRec.find({}, {sort:{createdAt: -1}, limit:5});
+Meteor.publish('popularUrls', function(lim){
+    return UrlRec.find({}, {sort:{createdAt: -1}, limit:lim});
 });
 
 Meteor.methods({
@@ -29,27 +30,27 @@ Meteor.methods({
 	      }
 	    });
     } else {
-  	  var shortS = getSURL();
-  	  var websiteData = Scrape.website(longUrl);
-  	  UrlRec.insert({
-  	    short: shortS,      
-  	    long: longUrl,
-  	    createdAt: new Date(),
-  	    userId: currentUserId,
-  	    title: websiteData.title,
-  	    text: websiteData.text,
-  	    image: websiteData.image
-  	  }, function(err, res){
-     	    if (err){
-  	      // FlashMessages.sendError('insert to Urls failed: ' + err.messge);
-  	      throw err;
-  	    }
-  	  });
-      ret.short = shortS;
-      ret.long = longUrl;
-      ret.title = websiteData.title;
-      ret.text = websiteData.text;
-      ret.image = websiteData.image;
+        var shortS = getSURL();
+        var websiteData = Scrape.website(longUrl);
+        UrlRec.insert({
+          short: shortS,      
+          long: longUrl,
+          createdAt: new Date(),
+          userId: currentUserId,
+          title: websiteData.title,
+          text: websiteData.text,
+          image: websiteData.image
+        }, function(err, res){
+          if (err){
+            // FlashMessages.sendError('insert to Urls failed: ' + err.messge);
+            throw err;
+          }
+        });
+        ret.short = shortS;
+        ret.long = longUrl;
+        ret.title = websiteData.title;
+        ret.text = websiteData.text;
+        ret.image = websiteData.image;
     }
     return ret;
   },
