@@ -40,15 +40,16 @@
 	<div class="row">
 	    <div class="col-md-7">
 	        <a href="#">
-	            <img class="img-responsive" src="http://placehold.it/700x300" alt="">
+	            <img class="img-responsive" src="{{imageLink}}" alt="">
 	        </a>
 	    </div>
 	    <div class="col-md-5">
-	        <h3>Webpage Title</h3>
-	        <p>Website preview content</p>
-	        <p class="truncate">{{long}}</p>
+	        <h3>{{title}}</h3>
+	        <p class="truncate">{{truncate text 150}}</p>
+	        <p class="truncate">{{truncate long 50}}</p>
 	        <p>{{appendToBaseUrl short}}</p>
-	        <a class="btn btn-primary" target="_blank" href="{{appendToBaseUrl short}}">Mo<span class="glyphicon glyphicon-chevron-right"></span></a>
+	        <a class="btn btn-primary" target="_blank" href="{{appendToBaseUrl short}}">Mo
+	        <span class="glyphicon glyphicon-chevron-right"></span></a>
 	    </div>
 	</div>
 	<hr>

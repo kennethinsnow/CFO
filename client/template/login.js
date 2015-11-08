@@ -18,8 +18,7 @@ Template.register.events({
 	          FlashMessages.sendError('There was an error with registration');
 	        } else {
 	          FlashMessages.sendSuccess('Account Created! You are now logged in');
-	          cleanSess('shortUrl');
-	          cleanSess('longUrl');
+	          cleanSess('last');
 	          Router.go('/');
 	        }
 	      });
@@ -42,8 +41,7 @@ Template.login.events({
         console.log(err.reason);
       } else {
         FlashMessages.sendSuccess('You are now logged in');
-        cleanSess('shortUrl');
-        cleanSess('longUrl');
+        cleanSess('last');
         Router.go('/');
       }
     });
@@ -54,8 +52,7 @@ Template.nav.events({
 	'click .logout': function(events){
 		events.preventDefault();
 		Meteor.logout();
-		cleanSess('shortUrl');
-        cleanSess('longUrl');
+		cleanSess('last');
 		Router.go('/');
 	}
 });

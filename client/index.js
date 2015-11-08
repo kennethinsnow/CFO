@@ -7,3 +7,8 @@ Template.registerHelper('formatDate', function(date) {
 Template.registerHelper('appendToBaseUrl', function(shortUrlId) {
   return Meteor.absoluteUrl('', {}) + shortUrlId;
 });
+
+Template.registerHelper('truncate', function(str, maxLen) {
+	if (str.length <= maxLen) return str;
+	else return str.substr(0, maxLen - 3) + "...";
+});

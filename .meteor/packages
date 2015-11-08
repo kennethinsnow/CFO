@@ -23,3 +23,4 @@ iron:router
 mrt:flash-messages
 momentjs:moment
 twbs:bootstrap
+anonyfox:scrape

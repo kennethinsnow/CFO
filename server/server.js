@@ -15,32 +15,43 @@ Meteor.methods({
     }
     var doc = UrlRec.findOne({long:longUrl, userId: currentUserId});
     var shortS;
+    var ret = {short:"", long:"", title:"", text:"", image:""};
     if (doc){
   	  shortS = doc.short;
+      ret = doc;
    	  UrlRec.update({
-	    short: shortS,
-	    userId: currentUserId
-	  }, {$set: {createdAt: new Date()}}, function(err, res){
+  	    short: shortS,
+  	    userId: currentUserId
+	      }, {$set: {createdAt: new Date()}}, function(err, res){
    	    if (err){
-	      // FlashMessages.sendError('insert to Urls failed: ' + err.messge);
-	      throw err;
-	    }
-	  });
+  	      // FlashMessages.sendError('insert to Urls failed: ' + err.messge);
+  	      throw err;
+	      }
+	    });
     } else {
-	  var shortS = getSURL();
-	  UrlRec.insert({
-	    short: shortS,      
-	    long: longUrl,
-	    createdAt: new Date(),
-	    userId: currentUserId
-	  }, function(err, res){
-   	    if (err){
-	      // FlashMessages.sendError('insert to Urls failed: ' + err.messge);
-	      throw err;
-	    }
-	  });
+  	  var shortS = getSURL();
+  	  var websiteData = Scrape.website(longUrl);
+  	  UrlRec.insert({
+  	    short: shortS,      
+  	    long: longUrl,
+  	    createdAt: new Date(),
+  	    userId: currentUserId,
+  	    title: websiteData.title,
+  	    text: websiteData.text,
+  	    image: websiteData.image
+  	  }, function(err, res){
+     	    if (err){
+  	      // FlashMessages.sendError('insert to Urls failed: ' + err.messge);
+  	      throw err;
+  	    }
+  	  });
+      ret.short = shortS;
+      ret.long = longUrl;
+      ret.title = websiteData.title;
+      ret.text = websiteData.text;
+      ret.image = websiteData.image;
     }
-    return shortS;
+    return ret;
   },
   'getUrlByCurUser': function(){
 	  var curUserId = this.userId;
