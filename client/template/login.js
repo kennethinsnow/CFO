@@ -18,7 +18,7 @@ Template.register.events({
 	          FlashMessages.sendError('There was an error with registration');
 	        } else {
 	          FlashMessages.sendSuccess('Account Created! You are now logged in');
-	          cleanSess('last');
+	          cleanAllSess();
 	          Router.go('/');
 	        }
 	      });
@@ -41,7 +41,7 @@ Template.login.events({
         console.log(err.reason);
       } else {
         FlashMessages.sendSuccess('You are now logged in');
-        cleanSess('last');
+        cleanAllSess();
         Router.go('/');
       }
     });
@@ -49,57 +49,63 @@ Template.login.events({
 });
 
 Template.nav.events({
-	'click .logout': function(events){
-		events.preventDefault();
-		Meteor.logout();
-		cleanSess('last');
-		Router.go('/');
-	}
+    'click .logout': function(events){
+        events.preventDefault();
+        Meteor.logout();
+        cleanAllSess();
+        Router.go('/');
+    }
 });
 
 // validations
 
 var trimInput = function(val) {
-  return val.replace(/^\s*|\s*$/g, '');
+    return val.replace(/^\s*|\s*$/g, '');
 }
 
 var isNotEmpty = function(val) {
-  if (val && val !== '') {
-    return true;
-  }
-  FlashMessages.sendError('Please fill in all fields');
-  return false;
+    if (val && val !== '') {
+        return true;
+    }
+    FlashMessages.sendError('Please fill in all fields');
+    return false;
 }
 
 var isEmail = function(val) {
-  var filter = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
-  if (filter.test(val)) {
-    return true;
-  }
-  FlashMessages.sendError('Please use a valid email address');
-  return false;
+    var filter = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+    if (filter.test(val)) {
+        return true;
+    }
+    FlashMessages.sendError('Please use a valid email address');
+    return false;
 }
 
 var isValidPassword = function(password) {
-  if (password.length < 6) {
-    FlashMessages.sendError('Password must be at least 6 characters');
-    return false;
-  }
-  return true;
+    if (password.length < 6) {
+        FlashMessages.sendError('Password must be at least 6 characters');
+        return false;
+    }
+    return true;
 }
 
 var areValidPasswords = function(password, confirm) {
-  if (!isValidPassword(password)) {
-    return false;
-  }
-  if (password !== confirm) {
-    FlashMessages.sendError('Passwords do not match');
-    return false;
-  }
-  return true;
+    if (!isValidPassword(password)) {
+        return false;
+    }
+    if (password !== confirm) {
+        FlashMessages.sendError('Passwords do not match');
+        return false;
+    }
+    return true;
 }
 
 var cleanSess = function(key){
-	Session.set(key, undefined);
+    Session.set(key, undefined);
     delete Session.keys[key];
+}
+
+var cleanAllSess = function(){
+    cleanSess('last');
+    cleanSess('linklistLimit');
+    cleanSess('toplinksLimit');
 }

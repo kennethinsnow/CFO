@@ -87,14 +87,18 @@ Template.shortenbar.events({
 Template.linklist.onCreated(function(){
     Session.set('linklistLimit', ITEMS_INCREMENT);
     Deps.autorun(function(){
-        Meteor.subscribe('userUrls', Session.get('linklistLimit'));
+        if (Session.get("linklistLimit")){
+            Meteor.subscribe('userUrls', Session.get('linklistLimit'));
+        }
     });
 });
 
 Template.toplinks.onCreated(function(){
     Session.set('toplinksLimit', ITEMS_INCREMENT);
     Deps.autorun(function(){
-        Meteor.subscribe('popularUrls', Session.get('toplinksLimit'));
+        if (Session.get("toplinksLimit")){
+            Meteor.subscribe('popularUrls', Session.get('toplinksLimit'));
+        }
     });
 });
 
@@ -116,10 +120,13 @@ function showMoreVisible() {
         if (!target.data("visible")) {
             // console.log("target became visible (inside viewable area)");
             target.data("visible", true);
-            Session.set("linklistLimit",
+            if (Session.get("linklistLimit")){
+                Session.set("linklistLimit",
                 Session.get("linklistLimit") + ITEMS_INCREMENT);
-            Session.set("toplinksLimit",
+            } else if (Session.get("toplinksLimit")){
+                Session.set("toplinksLimit",
                 Session.get("toplinksLimit") + ITEMS_INCREMENT);
+            }
             // console.log(Session.get("linklistLimit"));
         }
     } else {
