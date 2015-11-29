@@ -24,3 +24,4 @@ mrt:flash-messages
 momentjs:moment
 twbs:bootstrap
 anonyfox:scrape
+zuuk:stale-session
